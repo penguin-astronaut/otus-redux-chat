@@ -3,14 +3,6 @@ const config = {
   firebaseCollection: "messages.json"
 };
 
-interface Messsage {
-  date: Date,
-  message: string,
-  nickname: string
-}
-
-type MessageList = Messsage[];
-
 export async function getMessagesList(): Promise<MessageList> {
   return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
     headers: {
