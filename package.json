@@ -7,7 +7,9 @@
     "test": "jest",
     "lint": "prettier --check . && eslint --ext .js,.ts",
     "lint:fix": "prettier --write . && eslint . --ext .js,.ts --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "webpack --mode=production --target=es5",
+    "serve": "webpack serve --mode=development"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +18,7 @@
     "@types/jest": "^26.0.24",
     "@typescript-eslint/eslint-plugin": "^4.29.0",
     "@typescript-eslint/parser": "^4.29.0",
+    "css-loader": "^6.2.0",
     "eslint": "^7.31.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -28,11 +31,13 @@
     "prettier": "^2.3.2",
     "sass": "^1.37.5",
     "sass-loader": "^12.1.0",
+    "style-loader": "^3.2.1",
     "ts-jest": "^27.0.3",
     "ts-loader": "^9.2.3",
     "typescript": "^4.3.5",
     "webpack": "^5.45.1",
-    "webpack-cli": "^4.7.2"
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --cache --fix --ext .ts,.js",
