@@ -1,20 +1,20 @@
 const config = {
   firebaseBaseUrl: "https://otus-js-chat-4ed79-default-rtdb.firebaseio.com",
-  firebaseCollection: "messages.json"
+  firebaseCollection: "messages.json",
 };
 
 export async function getMessagesList(): Promise<MessageList> {
   return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   })
     .then((response) => response.json())
     .then((data) =>
       Object.values(data).map((el: Messsage) => ({
         ...el,
-        date: new Date(el.date)
+        date: new Date(el.date),
       }))
     );
 }
@@ -24,12 +24,12 @@ export async function sendMessage(data: Messsage): Promise<boolean> {
     method: "POST",
     body: JSON.stringify({
       ...data,
-      date: new Date()
+      date: new Date(),
     }),
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   }).then((response) => response.json());
 }
 
