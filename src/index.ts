@@ -1,3 +1,4 @@
+import { pushMessage, pushMessages, setName } from "./actionsCreater";
 import { getMessagesList, sendMessage as apiSendMessage } from "./messageApi";
 import { store } from "./store";
 import "./style.scss";
@@ -12,7 +13,7 @@ const nicknameInput: HTMLInputElement = document.querySelector(
 );
 async function initMessageList() {
   const messages = await getMessagesList();
-  store.dispatch({ type: "PUSH_MESSAGES", payload: messages.slice(-20) });
+  store.dispatch(pushMessages(messages.slice(-20)));
 }
 
 function renderApp() {
@@ -53,7 +54,7 @@ document
 
     try {
       await apiSendMessage(message);
-      store.dispatch({ type: "PUSH_MESSAGE", payload: message });
+      store.dispatch(pushMessage(message));
       chatMessage.innerHTML = "";
     } catch (e) {
       alert("There was an error sending your message, please try again later");
@@ -68,5 +69,5 @@ document
       alert("Nickname can't be null!");
       return;
     }
-    store.dispatch({ type: "SET_NAME", payload: nickname });
+    store.dispatch(setName(nickname));
   });
