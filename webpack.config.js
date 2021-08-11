@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.ts",
@@ -26,6 +27,17 @@ module.exports = {
         test: /\.s[ac]ss$/i,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -34,6 +46,9 @@ module.exports = {
       title: "Game of life",
     }),
     new MiniCssExtractPlugin(),
+    new CopyPlugin({
+      patterns: [{ from: "src/img", to: "img" }],
+    }),
   ],
   resolve: {
     extensions: [".ts", ".js"],

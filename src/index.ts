@@ -1,5 +1,9 @@
 import { pushMessage, pushMessages, setName } from "./actionsCreater";
-import { getMessagesList, sendMessage as apiSendMessage } from "./messageApi";
+import {
+  getMessagesList,
+  observeWithEventSource,
+  sendMessage as apiSendMessage,
+} from "./messageApi";
 import { store } from "./store";
 import "./style.scss";
 
@@ -16,6 +20,31 @@ async function initMessageList() {
   store.dispatch(pushMessages(messages.slice(-20)));
 }
 
+function smileReplace(text: string): string {
+  interface Smiles {
+    [key: string]: string;
+  }
+  const smiles: Smiles = {
+    ":-)": "/img/smile.png",
+    ":-(": "/img/sad.png",
+    ":-D": "/img/laugh.png",
+  };
+  let formattedText: string = text ?? "";
+  Object.keys(smiles).forEach((emotion: keyof Smiles) => {
+    const emotionEscaped = (emotion as string).replace(
+      /[.*+?^${}()|[\]\\]/g,
+      "\\$&"
+    );
+    const re = new RegExp(emotionEscaped, "g");
+    formattedText = formattedText.replace(
+      re,
+      `<img class="chat-message__smile" src='${smiles[emotion]}'>`
+    );
+  });
+
+  return formattedText;
+}
+
 function renderApp() {
   const { mesages, name } = store.getState();
   chatMessagesContainer.innerHTML = "";
@@ -24,13 +53,12 @@ function renderApp() {
     const messageTemplate = `
     <div class="chat-message">
       <div class="chat-message__nickname">${message.name}:</div>
-      <div class="chat-message__text">${message.message}</div>
+      <div class="chat-message__text">${smileReplace(message.message)}</div>
     </div>
     `;
     chatMessagesContainer.insertAdjacentHTML("beforeend", messageTemplate);
-    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
   });
-
+  chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
   nicknameInput.value = name;
 }
 
@@ -54,7 +82,6 @@ document
 
     try {
       await apiSendMessage(message);
-      store.dispatch(pushMessage(message));
       chatMessage.innerHTML = "";
     } catch (e) {
       alert("There was an error sending your message, please try again later");
@@ -71,3 +98,8 @@ document
     }
     store.dispatch(setName(nickname));
   });
+
+observeWithEventSource((data: MessageFromApi) => {
+  const message: Messsage = { ...data, date: new Date(data.date) };
+  store.dispatch(pushMessage(message));
+});
