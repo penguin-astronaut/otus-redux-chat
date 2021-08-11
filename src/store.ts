@@ -5,13 +5,13 @@ interface State {
   name: string;
 }
 
-interface Action {
+export interface Action {
   type: string;
   payload?: any;
 }
 
 function chatReducer(
-  state: State = { name: "", mesages: [] },
+  state: State = { name: "James Bonde", mesages: [] },
   action: Action
 ): State {
   switch (action.type) {

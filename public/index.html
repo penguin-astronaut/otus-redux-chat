@@ -11,8 +11,20 @@
       <div class="chat">
         <div class="chat-messages"></div>
         <div class="chat-send">
-          <div class="chat-send__message" contenteditable="true"></div>
-          <button class="chat-send__button">Send</button>
+          <div class="chat-settings">
+            <div class="chat-settings__name">
+              Nickname:
+              <input class="chat-settings__name-input" type="text" /><button
+                class="chat-settings__name-update"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+          <div class="chat-send__wrapper">
+            <div class="chat-send__message" contenteditable="true"></div>
+            <button class="chat-send__button">Send</button>
+          </div>
         </div>
       </div>
     </div>

@@ -22,10 +22,7 @@ export async function getMessagesList(): Promise<MessageList> {
 export async function sendMessage(data: Messsage): Promise<boolean> {
   return fetch(`${config.firebaseBaseUrl}/${config.firebaseCollection}`, {
     method: "POST",
-    body: JSON.stringify({
-      ...data,
-      date: new Date(),
-    }),
+    body: JSON.stringify(data),
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
