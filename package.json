@@ -41,7 +41,7 @@
   },
   "lint-staged": {
     "*.{js,ts}": "eslint --cache --fix --ext .ts,.js",
-    "*.{js,ts,css,md,yml,html,json}": "prettier --write"
+    "*.{js,ts,css,scss,md,yml,html,json}": "prettier --write"
   },
   "dependencies": {
     "redux": "^4.1.1"
