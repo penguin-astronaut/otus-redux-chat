@@ -2,17 +2,9 @@ import { pushMessages, setName } from "./actionsCreater";
 import { getMessagesList, sendMessage } from "./messageApi";
 import { store } from "./store";
 
-const chatMessagesContainer: HTMLDivElement =
-  document.querySelector(".chat-messages");
-const chatMessage: HTMLDivElement = document.querySelector(
-  ".chat-send__message"
-);
-const nicknameInput: HTMLInputElement = document.querySelector(
-  ".chat-settings__name-input"
-);
 export async function initMessageList(): Promise<void> {
   const messages = await getMessagesList();
-  store.dispatch(pushMessages(messages.slice(-20)));
+  store.dispatch(pushMessages(messages?.slice(-20) ?? []));
 }
 
 function smileReplace(text: string): string {
@@ -41,6 +33,11 @@ function smileReplace(text: string): string {
 }
 
 export function renderApp(): void {
+  const chatMessagesContainer: HTMLDivElement =
+    document.querySelector(".chat-messages");
+  const nicknameInput: HTMLInputElement = document.querySelector(
+    ".chat-settings__name-input"
+  );
   const { mesages, name } = store.getState();
   chatMessagesContainer.innerHTML = "";
 
@@ -58,6 +55,12 @@ export function renderApp(): void {
 }
 
 export function initListeners(): void {
+  const chatMessage: HTMLDivElement = document.querySelector(
+    ".chat-send__message"
+  );
+  const nicknameInput: HTMLInputElement = document.querySelector(
+    ".chat-settings__name-input"
+  );
   document
     .querySelector(".chat-send__button")
     .addEventListener("click", async () => {
