@@ -1,35 +1,11 @@
 import { pushMessages, setName } from "./actionsCreater";
 import { getMessagesList, sendMessage } from "./messageApi";
 import { store } from "./store";
+import { smileReplace } from "./utils";
 
 export async function initMessageList(): Promise<void> {
   const messages = await getMessagesList();
   store.dispatch(pushMessages(messages?.slice(-20) ?? []));
-}
-
-function smileReplace(text: string): string {
-  interface Smiles {
-    [key: string]: string;
-  }
-  const smiles: Smiles = {
-    ":-)": "img/smile.png",
-    ":-(": "img/sad.png",
-    ":-D": "img/laugh.png",
-  };
-  let formattedText: string = text ?? "";
-  Object.keys(smiles).forEach((emotion: keyof Smiles) => {
-    const emotionEscaped = (emotion as string).replace(
-      /[.*+?^${}()|[\]\\]/g,
-      "\\$&"
-    );
-    const re = new RegExp(emotionEscaped, "g");
-    formattedText = formattedText.replace(
-      re,
-      `<img class="chat-message__smile" src='${smiles[emotion]}'>`
-    );
-  });
-
-  return formattedText;
 }
 
 export function renderApp(): void {
