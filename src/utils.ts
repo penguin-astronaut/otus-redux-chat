@@ -3,9 +3,9 @@ export function smileReplace(text: string): string {
     [key: string]: string;
   }
   const smiles: Smiles = {
-    ":-)": "img/smile.png",
-    ":-(": "img/sad.png",
-    ":-D": "img/laugh.png",
+    ":-)": "img/smile.svg",
+    ":-(": "img/sad.svg",
+    ":-D": "img/laugh.svg",
   };
   let formattedText: string = text ?? "";
   Object.keys(smiles).forEach((emotion: keyof Smiles) => {
