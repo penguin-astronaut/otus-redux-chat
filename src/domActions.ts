@@ -4,8 +4,12 @@ import { store } from "./store";
 import { smileReplace } from "./utils";
 
 export async function initMessageList(): Promise<void> {
-  const messages = await getMessagesList();
-  store.dispatch(pushMessages(messages?.slice(-20) ?? []));
+  try {
+    const messages = await getMessagesList();
+    store.dispatch(pushMessages(messages?.slice(-20) ?? []));
+  } catch (e) {
+    alert("Error while receiving messages, please try later :(");
+  }
 }
 
 export function renderApp(): void {
